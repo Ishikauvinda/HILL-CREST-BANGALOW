@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Details | Hill Crest Bangalow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500;1,600&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html">
+                <img src="reomve bg.png" alt="Hill Crest Bangalow Logo">
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="rooms.html">Rooms</a></li>
+            <li><a href="areas.html">Areas Information</a></li>
+            <li><a href="contact.html" class="active-link">Contact Details</a></li>
+        </ul>
+    </nav>
+
+    <section class="contact-section">
+        <div class="contact-container">
+            <div class="map-box">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d203.7070718384274!2d80.10530557773026!3d6.135919569316714!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae1770468f4754f%3A0x1b48c0a133212f42!2sHillCrest%20Villa!5e1!3m2!1sen!2slk!4v1787716893469!5m2!1sen!2slk" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <div class="info-box">
+                <h2>Contact Info</h2>
+                <p>Top quality accommodation, delectable cuisine and smiling staff to pamper you so you can truly relax. We have taken great care to ensure that our guests want for nothing while in “Hikkaduwa” and have done so in the style that HILL CREST BANGALOW guests are accustomed to.</p>
+                <ul class="contact-list">
+                    <li><img src="address.jpg" alt="Address Icon" class="contact-icon"><span>Address - No 93, Wawulagoda Road, Hikkaduwa</span></li>
+                    <li><img src="email.png" alt="Email Icon" class="contact-icon"><span>Email - ishikauvinda10@gmail.com</span></li>
+                    <li><img src="number.png" alt="Phone Icon" class="contact-icon"><span>Phone number - +94 761727294 / +94 776106336</span></li>
+                    <li><img src="whtsapp.jpg" alt="WhatsApp Icon" class="contact-icon"><span>Whats app number - <a href="https://WA.me/94761727294" target="_blank" class="whatsapp-link">0761727294</a></span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <div class="fretwork-divider dark" aria-hidden="true"></div>
+
+    <section class="feedback-section">
+        <h2>We Value Your Feedback</h2>
+        <div class="feedback-box">
+            <form id="feedbackForm">
+                <div class="input-group">
+                    <label for="fb-date">Date -</label>
+                    <input type="date" id="fb-date" required>
+                </div>
+                <div class="input-group">
+                    <label for="fb-name">Name -</label>
+                    <input type="text" id="fb-name" placeholder="Enter your name" required>
+                </div>
+                <div class="input-group">
+                    <label for="fb-comment">Comment -</label>
+                    <textarea id="fb-comment" rows="5" placeholder="Write your comment here..." required></textarea>
+                </div>
+                <button type="button" class="submit-btn" onclick="submitFeedback()">Submit Feedback</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Hill Crest Bangalow. All Rights Reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

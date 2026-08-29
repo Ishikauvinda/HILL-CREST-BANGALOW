@@ -1,5 +1,27 @@
 // ============================================================
-// HOME PAGE LOGIC (Image Slider) — ORIGINAL FUNCTIONALITY PRESERVED
+// 1. GLOBAL VARIABLES & GOOGLE SHEETS SETUP
+// ============================================================
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwi6wwEIB_jHWBWEwddNbNYPMgvN4A9JK8p8oeSg8RvnZGT-RDR9ABdXihRRclV9nBFVA/exec';
+let bookedDateRanges = [];
+
+// වෙබ් අඩවිය ලෝඩ් වෙද්දීම කලින් බුක් වුණු දින ටික ලබාගැනීම
+fetchBookedDates();
+
+function fetchBookedDates() {
+    fetch(SCRIPT_URL)
+        .then(response => response.json())
+        .then(data => {
+            bookedDateRanges = data.map(d => ({
+                in: new Date(d.checkin),
+                out: new Date(d.checkout)
+            }));
+            console.log("Booked dates loaded:", bookedDateRanges);
+        })
+        .catch(error => console.error("Error loading booked dates:", error));
+}
+
+// ============================================================
+// 2. HOME PAGE LOGIC (Image Slider) 
 // ============================================================
 const slides = document.querySelectorAll('.slide');
 let currentSlide = 0;
@@ -15,7 +37,9 @@ if (slides.length > 0) {
     setInterval(nextSlide, 5000);
 }
 
-// CONTACT PAGE LOGIC (Feedback Form) — ORIGINAL FUNCTIONALITY PRESERVED
+// ============================================================
+// 3. CONTACT PAGE LOGIC (Feedback Form)
+// ============================================================
 function submitFeedback() {
     const date = document.getElementById('fb-date').value;
     const name = document.getElementById('fb-name').value;
@@ -32,7 +56,7 @@ function submitFeedback() {
 }
 
 // ============================================================
-// ROOMS PAGE LOGIC (Modal, Booking, PDF) — ORIGINAL FUNCTIONALITY PRESERVED
+// 4. ROOMS PAGE LOGIC (Modal, Booking, PDF, Apps Script) 
 // ============================================================
 
 // Image Modal (Zoom)
@@ -45,6 +69,22 @@ function closeModal() {
     document.getElementById("imageModal").style.display = "none";
 }
 
+// දින දෙකක් එකිනෙක ගැටෙනවාද (Overlapping) කියා පරීක්ෂා කිරීම
+function isDateOverlapping(checkinStr, checkoutStr) {
+    let cIn = new Date(checkinStr);
+    let cOut = new Date(checkoutStr);
+    
+    for(let i = 0; i < bookedDateRanges.length; i++) {
+        let bIn = bookedDateRanges[i].in;
+        let bOut = bookedDateRanges[i].out;
+        
+        if(cIn < bOut && cOut > bIn) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // Live Summary Update & Date Calculation
 function calculateDays() {
     const checkin = document.getElementById('checkin-date').value;
@@ -52,6 +92,16 @@ function calculateDays() {
     let days = 0;
 
     if (checkin && checkout) {
+        // Double Booking චෙක් කිරීම
+        if (isDateOverlapping(checkin, checkout)) {
+            alert("Sorry, these dates are already booked! Please select different dates.");
+            document.getElementById('checkin-date').value = "";
+            document.getElementById('checkout-date').value = "";
+            document.getElementById('sum-days').innerText = "0";
+            updateSummary();
+            return;
+        }
+
         const inDate = new Date(checkin);
         const outDate = new Date(checkout);
 
@@ -88,17 +138,15 @@ function clearBookingForm() {
     updateSummary();
 }
 
-// Submit Booking (WhatsApp + PDF)
+// Submit Booking (Google Sheets + PDF + WhatsApp)
 function submitBooking() {
     const name = document.getElementById('cus-name').value;
     const email = document.getElementById('cus-email').value;
     const whatsapp = document.getElementById('cus-whatsapp').value;
     const contact = document.getElementById('cus-contact').value;
-
     const checkin = document.getElementById('checkin-date').value;
     const checkout = document.getElementById('checkout-date').value;
     const days = document.getElementById('sum-days').innerText;
-
     const adults = document.getElementById('adults-count').value;
     const children = document.getElementById('children-count').value;
     const rooms = document.getElementById('rooms-count').value;
@@ -108,47 +156,83 @@ function submitBooking() {
         return;
     }
 
-    // WhatsApp මැසේජ් එක
-    const message = `*New Booking Request - Hill Crest Bangalow*%0A%0A*Name:* ${name}%0A*Email:* ${email}%0A*WhatsApp:* ${whatsapp}%0A*Contact:* ${contact}%0A*Check-in:* ${checkin}%0A*Check-out:* ${checkout}%0A*Total Stay:* ${days} Days%0A*Rooms:* ${rooms}%0A*Guests:* ${adults} Adults, ${children} Children`;
-    const waLink = `https://wa.me/94761727294?text=${message}`;
-
-    // PDF රිසිට් එක හැදීම
-    if (window.jspdf) {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-
-        doc.setFontSize(22);
-        doc.text("HILL CREST BANGALOW", 65, 20);
-
-        doc.setFontSize(16);
-        doc.text("Booking Confirmation Details", 65, 35);
-
-        doc.setFontSize(12);
-        doc.text(`Customer Name     : ${name}`, 20, 55);
-        doc.text(`Email Address     : ${email}`, 20, 65);
-        doc.text(`WhatsApp Number   : ${whatsapp}`, 20, 75);
-        doc.text(`Contact Number    : ${contact}`, 20, 85);
-        doc.text(`Check-In Date     : ${checkin}`, 20, 100);
-        doc.text(`Check-Out Date    : ${checkout}`, 20, 110);
-        doc.text(`Total Days of Stay: ${days} Days`, 20, 120);
-        doc.text(`Number of Rooms   : ${rooms}`, 20, 130);
-        doc.text(`Guests            : ${adults} Adults, ${children} Children`, 20, 140);
-
-        doc.text("Thank you for choosing Hill Crest Bangalow. Have a great stay!", 20, 170);
-
-        doc.save(`Booking_HillCrest_${name}.pdf`);
-    } else {
-        alert("PDF generator is loading. Please make sure you have internet connection.");
+    // අන්තිම මොහොතේත් දින Overlap වෙනවාදැයි බැලීම
+    if (isDateOverlapping(checkin, checkout)) {
+        alert("Sorry, these dates were just booked by someone else. Please select different dates.");
+        return;
     }
 
-    setTimeout(() => {
-        window.open(waLink, '_blank');
-    }, 1000);
+    // බොත්තම "Please wait..." ලෙස වෙනස් කිරීම
+    const btn = document.querySelector('.book-btn');
+    const originalText = btn.innerText;
+    btn.innerText = "Please wait... Processing";
+    btn.disabled = true;
+
+    // Google Sheet එකට යැවීම සඳහා දත්ත සැකසීම
+    const formData = new URLSearchParams();
+    formData.append("Name", name);
+    formData.append("Email", email);
+    formData.append("WhatsApp", whatsapp);
+    formData.append("Contact", contact);
+    formData.append("CheckIn", checkin);
+    formData.append("CheckOut", checkout);
+    formData.append("Days", days);
+    formData.append("Rooms", rooms);
+    formData.append("Adults", adults);
+    formData.append("Children", children);
+
+    // Google Sheet එකට දත්ත යැවීම
+    fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        // 1. PDF රිසිට් එක හැදීම
+        if (window.jspdf) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            doc.setFontSize(22);
+            doc.text("HILL CREST BANGALOW", 65, 20);
+            doc.setFontSize(16);
+            doc.text("Booking Confirmation Details", 65, 35);
+            doc.setFontSize(12);
+            doc.text(`Customer Name     : ${name}`, 20, 55);
+            doc.text(`Email Address     : ${email}`, 20, 65);
+            doc.text(`WhatsApp Number   : ${whatsapp}`, 20, 75);
+            doc.text(`Contact Number    : ${contact}`, 20, 85);
+            doc.text(`Check-In Date     : ${checkin}`, 20, 100);
+            doc.text(`Check-Out Date    : ${checkout}`, 20, 110);
+            doc.text(`Total Days of Stay: ${days} Days`, 20, 120);
+            doc.text(`Number of Rooms   : ${rooms}`, 20, 130);
+            doc.text(`Guests            : ${adults} Adults, ${children} Children`, 20, 140);
+            doc.text("Thank you for choosing Hill Crest Bangalow. Have a great stay!", 20, 170);
+            
+            doc.save(`Booking_HillCrest_${name}.pdf`);
+        }
+
+        // 2. WhatsApp මැසේජ් එක යැවීම
+        const message = `*New Booking Request - Hill Crest Bangalow*%0A%0A*Name:* ${name}%0A*Email:* ${email}%0A*WhatsApp:* ${whatsapp}%0A*Contact:* ${contact}%0A*Check-in:* ${checkin}%0A*Check-out:* ${checkout}%0A*Total Stay:* ${days} Days%0A*Rooms:* ${rooms}%0A*Guests:* ${adults} Adults, ${children} Children`;
+        const waLink = `https://wa.me/94761727294?text=${message}`;
+        setTimeout(() => { window.open(waLink, '_blank'); }, 1000);
+
+        // 3. පද්ධතිය Refresh කිරීම
+        alert("Booking Successful!");
+        fetchBookedDates(); // අලුත් දින ටික නැවත ලබාගැනීම
+        clearBookingForm();
+        btn.innerText = originalText;
+        btn.disabled = false;
+    })
+    .catch(error => {
+        alert("Something went wrong. Please try again.");
+        console.error('Error!', error.message);
+        btn.innerText = originalText;
+        btn.disabled = false;
+    });
 }
 
 // ============================================================
-// UI/UX ENHANCEMENTS ONLY — purely presentational, do not touch
-// any business logic, data, or content above this line.
+// 5. UI/UX ENHANCEMENTS (Animations, Navbar, Mobile Menu)
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -188,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Slider dot indicators (visual only, mirrors existing slide state) ---
+    // --- Slider dot indicators ---
     const sliderContainer = document.querySelector('.slider-container');
     if (sliderContainer && slides.length > 0) {
         const dotsWrap = document.createElement('div');

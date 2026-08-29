@@ -184,6 +184,7 @@ function submitBooking() {
     // Google Sheet එකට දත්ත යැවීම
     fetch(SCRIPT_URL, {
         method: 'POST',
+        mode: 'no-cors', // <---- CORS Error එක නැති කිරීමට මෙය එකතු කරන ලදී
         body: formData
     })
     .then(response => {

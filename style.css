@@ -264,8 +264,26 @@ footer {
     font-size: 1.1rem; 
     line-height: 1.6; 
     font-weight: 300; 
+    margin-bottom: 30px; /* Added spacing for the button */
 }
 
+/* Slide Button */
+.slide-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--brass-light), var(--brass));
+    color: var(--jungle-deep);
+    padding: 12px 30px;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: var(--radius-sm);
+    font-size: 1.1rem;
+    transition: transform var(--speed) var(--ease), box-shadow var(--speed) var(--ease);
+}
+
+.slide-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(184, 146, 79, 0.4);
+}
 
 /* DISCOVER SECTION */
 .discover-section {
@@ -630,6 +648,10 @@ footer {
 .fac-card ul li::before { content: "◆"; color: var(--brass); font-size: 0.6rem; margin-right: 12px; vertical-align: middle; }
 
 /* Booking Section */
+/* Added an ID to scroll to this specific section */
+#booking-form-section {
+    scroll-margin-top: 80px; /* Offset for sticky navbar */
+}
 .booking-section { padding: 80px 20px 90px; background: var(--ivory); text-align: center; }
 .booking-section h2 {
     font-family: var(--font-display);

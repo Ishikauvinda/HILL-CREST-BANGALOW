@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
     <title>Rooms & Booking | Hill Crest Villa</title>
+    <meta name="description" content="Experience comfort and luxury in our 4-bedroom villa in Hikkaduwa. View our gallery, check facilities, and book your stay directly.">
+    <meta name="keywords" content="Hikkaduwa villa rooms, book villa Hikkaduwa, Hill Crest Villa accommodations, 4 bedroom villa, canopy beds">
+
     <!-- PDF ජෙනරේට් කිරීමට අවශ්‍ය Library එක -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,181 +17,185 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">
-            <a href="index.html">
-                <img src="reomve bg.png" alt="Hill Crest Bangalow Logo">
-            </a>
-        </div>
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="rooms.html" class="active-link">Rooms</a></li>
-            <li><a href="areas.html">Areas Information</a></li>
-            <li><a href="contact.html">Contact Details</a></li>
-        </ul>
-    </nav>
-
-    <header class="page-header">
-        <h1>Our Accommodations</h1>
-        <p>Experience comfort and luxury in the heart of Hikkaduwa</p>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="reomve bg.png" alt="Hill Crest Bangalow Logo">
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="rooms.html" class="active-link">Rooms</a></li>
+                <li><a href="areas.html">Areas Information</a></li>
+                <li><a href="contact.html">Contact Details</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <section class="gallery-section">
-        <div class="gallery-grid">
-            <img src="2 image.jpeg" alt="Room 1" class="gallery-img" onclick="openModal(this.src)">
-            <img src="5 image.jpeg" alt="Room 2" class="gallery-img" onclick="openModal(this.src)">
-            <img src="9 image.jpeg" alt="Room 3" class="gallery-img" onclick="openModal(this.src)">
-            <img src="6 image.jpeg" alt="Kitchen" class="gallery-img" onclick="openModal(this.src)">
-            <img src="7 image.jpeg" alt="living area" class="gallery-img" onclick="openModal(this.src)">
-            <img src="8 image.jpeg" alt="bathroom" class="gallery-img" onclick="openModal(this.src)">
+    <main>
+        <header class="page-header">
+            <h1>Our Accommodations</h1>
+            <p>Experience comfort and luxury in the heart of Hikkaduwa</p>
+        </header>
+
+        <section class="gallery-section">
+            <div class="gallery-grid">
+                <!-- පින්තූර වලට loading="lazy" එකතු කර ඇත -->
+                <img src="2 image.jpeg" alt="Room 1" class="gallery-img" onclick="openModal(this.src)" loading="lazy">
+                <img src="5 image.jpeg" alt="Room 2" class="gallery-img" onclick="openModal(this.src)" loading="lazy">
+                <img src="9 image.jpeg" alt="Room 3" class="gallery-img" onclick="openModal(this.src)" loading="lazy">
+                <img src="6 image.jpeg" alt="Kitchen" class="gallery-img" onclick="openModal(this.src)" loading="lazy">
+                <img src="7 image.jpeg" alt="living area" class="gallery-img" onclick="openModal(this.src)" loading="lazy">
+                <img src="8 image.jpeg" alt="bathroom" class="gallery-img" onclick="openModal(this.src)" loading="lazy">
+            </div>
+
+            <div class="room-info">
+                <p>✔ Kings size large bedrooms 4</p>
+                <p>✔ All beds are canopy beds</p>
+                <p>✔ Attached bathrooms</p>
+                <p>✔ Living area</p>
+            </div>
+        </section>
+
+        <div id="imageModal" class="modal">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <img class="modal-content" id="zoomedImg">
         </div>
 
-        <div class="room-info">
-            <p>✔ Kings size large bedrooms 4</p>
-            <p>✔ All beds are canopy beds</p>
-            <p>✔ Attached bathrooms</p>
-            <p>✔ Living area</p>
-        </div>
-    </section>
-
-    <div id="imageModal" class="modal">
-        <span class="close-modal" onclick="closeModal()">&times;</span>
-        <img class="modal-content" id="zoomedImg">
-    </div>
-
-    
-
-    <section class="facilities-section">
-        <h2>Facilities of HILL CREST VILLA</h2>
-        <div class="facilities-grid">
-            <div class="fac-card">
-                <img src="1 image.jpeg" alt="Great for your stay" class="fac-icon">
-                <h3>Great for your stay</h3>
-                <ul>
-                    <li>Balcony</li><li>Private bathroom</li><li>Parking</li>
-                    <li>View</li><li>Family rooms</li><li>Free parking</li><li>BBQ</li>
-                </ul>
-            </div>
-            <div class="fac-card">
-                <img src="bathroom.png" alt="Bathroom" class="fac-icon">
-                <h3>Bathroom</h3>
-                <ul>
-                    <li>Toilet paper</li><li>Towels</li><li>Bidet</li>
-                    <li>Bath or shower</li><li>Private bathroom</li><li>Toilet</li>
-                    <li>Free toiletries</li><li>Shower</li>
-                </ul>
-            </div>
-            <div class="fac-card">
-                <img src="viewlogo.png" alt="View" class="fac-icon">
-                <h3>View</h3>
-                <ul><li>Garden view</li></ul>
-            </div>
-            <div class="fac-card">
-                <img src="outdoor.png" alt="Outdoors" class="fac-icon">
-                <h3>Outdoors</h3>
-                <ul><li>Sun deck</li><li>Balcony</li><li>Garden</li></ul>
-            </div>
-            <div class="fac-card">
-                <img src="safty.jpg" alt="Safety" class="fac-icon">
-                <h3>Safety & security</h3>
-                <ul><li>Key access</li><li>Safe</li></ul>
-            </div>
-            <div class="fac-card">
-                <img src="General.png" alt="General" class="fac-icon">
-                <h3>General</h3>
-                <ul><li>Mosquito net</li><li>Private entrance</li><li>Fan</li><li>A/C</li></ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- Added ID here -->
-    <section class="booking-section" id="booking-form-section">
-        <h2>Book Now</h2>
-        <div class="booking-container">
-            <form id="bookingForm" class="booking-form">
-
-                <h3 style="margin-bottom: 15px; color: #2c3e50;">Personal Information</h3>
-                <div class="form-row">
-                    <div class="input-group">
-                        <label>Full Name</label>
-                        <input type="text" id="cus-name" onkeyup="updateSummary()" placeholder="Enter your full name" required>
-                    </div>
-                    <div class="input-group">
-                        <label>Email Address</label>
-                        <input type="email" id="cus-email" onkeyup="updateSummary()" placeholder="Enter your email" required>
-                    </div>
+        <section class="facilities-section">
+            <h2>Facilities of HILL CREST VILLA</h2>
+            <div class="facilities-grid">
+                <div class="fac-card">
+                    <img src="1 image.jpeg" alt="Great for your stay" class="fac-icon" loading="lazy">
+                    <h3>Great for your stay</h3>
+                    <ul>
+                        <li>Balcony</li><li>Private bathroom</li><li>Parking</li>
+                        <li>View</li><li>Family rooms</li><li>Free parking</li><li>BBQ</li>
+                    </ul>
                 </div>
-
-                <div class="form-row">
-                    <div class="input-group">
-                        <label>WhatsApp Number</label>
-                        <input type="tel" id="cus-whatsapp" onkeyup="updateSummary()" placeholder="e.g. 07XXXXXXXX" required>
-                    </div>
-                    <div class="input-group">
-                        <label>Contact Number</label>
-                        <input type="tel" id="cus-contact" onkeyup="updateSummary()" placeholder="e.g. 07XXXXXXXX" required>
-                    </div>
+                <div class="fac-card">
+                    <img src="bathroom.png" alt="Bathroom" class="fac-icon" loading="lazy">
+                    <h3>Bathroom</h3>
+                    <ul>
+                        <li>Toilet paper</li><li>Towels</li><li>Bidet</li>
+                        <li>Bath or shower</li><li>Private bathroom</li><li>Toilet</li>
+                        <li>Free toiletries</li><li>Shower</li>
+                    </ul>
                 </div>
-
-                <h3 style="margin-top: 20px; margin-bottom: 15px; color: #2c3e50;">Stay Details</h3>
-                <div class="form-row">
-                    <div class="input-group">
-                        <label>Check-in Date</label>
-                        <input type="date" id="checkin-date" onchange="calculateDays()" required>
-                    </div>
-                    <div class="input-group">
-                        <label>Check-out Date</label>
-                        <input type="date" id="checkout-date" onchange="calculateDays()" required>
-                    </div>
+                <div class="fac-card">
+                    <img src="viewlogo.png" alt="View" class="fac-icon" loading="lazy">
+                    <h3>View</h3>
+                    <ul><li>Garden view</li></ul>
                 </div>
+                <div class="fac-card">
+                    <img src="outdoor.png" alt="Outdoors" class="fac-icon" loading="lazy">
+                    <h3>Outdoors</h3>
+                    <ul><li>Sun deck</li><li>Balcony</li><li>Garden</li></ul>
+                </div>
+                <div class="fac-card">
+                    <img src="safty.jpg" alt="Safety" class="fac-icon" loading="lazy">
+                    <h3>Safety & security</h3>
+                    <ul><li>Key access</li><li>Safe</li></ul>
+                </div>
+                <div class="fac-card">
+                    <img src="General.png" alt="General" class="fac-icon" loading="lazy">
+                    <h3>General</h3>
+                    <ul><li>Mosquito net</li><li>Private entrance</li><li>Fan</li><li>A/C</li></ul>
+                </div>
+            </div>
+        </section>
 
-                <div class="occupancy-section">
-                    <label>Select Occupancy</label>
-                    <div class="occupancy-inputs">
-                        <div class="occ-box">
-                            <label>Adults</label>
-                            <input type="number" id="adults-count" min="1" value="1" onchange="updateSummary()" required>
+        <!-- Added ID here -->
+        <section class="booking-section" id="booking-form-section">
+            <h2>Book Now</h2>
+            <div class="booking-container">
+                <form id="bookingForm" class="booking-form">
+
+                    <h3 style="margin-bottom: 15px; color: #2c3e50;">Personal Information</h3>
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label>Full Name</label>
+                            <input type="text" id="cus-name" onkeyup="updateSummary()" placeholder="Enter your full name" required>
                         </div>
-                        <div class="occ-box">
-                            <label>Children</label>
-                            <input type="number" id="children-count" min="0" value="0" onchange="updateSummary()" required>
-                        </div>
-                        <div class="occ-box">
-                            <label>Rooms</label>
-                            <input type="number" id="rooms-count" min="1" max="4" value="1" onchange="updateSummary()" required>
+                        <div class="input-group">
+                            <label>Email Address</label>
+                            <input type="email" id="cus-email" onkeyup="updateSummary()" placeholder="Enter your email" required>
                         </div>
                     </div>
-                </div>
-            </form>
 
-            <div class="booking-summary">
-                <h3>Booking Summary</h3>
-                <div class="summary-details">
-                    <p><strong>Name:</strong> <span id="sum-name">-</span></p>
-                    <p><strong>Email:</strong> <span id="sum-email">-</span></p>
-                    <p><strong>WhatsApp:</strong> <span id="sum-whatsapp">-</span></p>
-                    <p><strong>Contact:</strong> <span id="sum-contact">-</span></p>
-                    <hr>
-                    <p><strong>Check-in:</strong> <span id="sum-checkin">-</span></p>
-                    <p><strong>Check-out:</strong> <span id="sum-checkout">-</span></p>
-                    <p class="highlight"><strong>Total Days Stay:</strong> <span id="sum-days">0</span> Days</p>
-                    <hr>
-                    <p><strong>Rooms:</strong> <span id="sum-rooms">1</span></p>
-                    <p><strong>Guests:</strong> <span id="sum-adults">1</span> Adults, <span id="sum-children">0</span> Children</p>
-                </div>
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label>WhatsApp Number</label>
+                            <input type="tel" id="cus-whatsapp" onkeyup="updateSummary()" placeholder="e.g. 07XXXXXXXX" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Contact Number</label>
+                            <input type="tel" id="cus-contact" onkeyup="updateSummary()" placeholder="e.g. 07XXXXXXXX" required>
+                        </div>
+                    </div>
 
-                <div class="action-buttons">
-                    <button class="clear-btn" onclick="clearBookingForm()">Clear Details</button>
-                    <button class="book-btn" onclick="submitBooking()">Confirm & Download PDF</button>
+                    <h3 style="margin-top: 20px; margin-bottom: 15px; color: #2c3e50;">Stay Details</h3>
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label>Check-in Date</label>
+                            <input type="date" id="checkin-date" onchange="calculateDays()" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Check-out Date</label>
+                            <input type="date" id="checkout-date" onchange="calculateDays()" required>
+                        </div>
+                    </div>
+
+                    <div class="occupancy-section">
+                        <label>Select Occupancy</label>
+                        <div class="occupancy-inputs">
+                            <div class="occ-box">
+                                <label>Adults</label>
+                                <input type="number" id="adults-count" min="1" value="1" onchange="updateSummary()" required>
+                            </div>
+                            <div class="occ-box">
+                                <label>Children</label>
+                                <input type="number" id="children-count" min="0" value="0" onchange="updateSummary()" required>
+                            </div>
+                            <div class="occ-box">
+                                <label>Rooms</label>
+                                <input type="number" id="rooms-count" min="1" max="4" value="1" onchange="updateSummary()" required>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="booking-summary">
+                    <h3>Booking Summary</h3>
+                    <div class="summary-details">
+                        <p><strong>Name:</strong> <span id="sum-name">-</span></p>
+                        <p><strong>Email:</strong> <span id="sum-email">-</span></p>
+                        <p><strong>WhatsApp:</strong> <span id="sum-whatsapp">-</span></p>
+                        <p><strong>Contact:</strong> <span id="sum-contact">-</span></p>
+                        <hr>
+                        <p><strong>Check-in:</strong> <span id="sum-checkin">-</span></p>
+                        <p><strong>Check-out:</strong> <span id="sum-checkout">-</span></p>
+                        <p class="highlight"><strong>Total Days Stay:</strong> <span id="sum-days">0</span> Days</p>
+                        <hr>
+                        <p><strong>Rooms:</strong> <span id="sum-rooms">1</span></p>
+                        <p><strong>Guests:</strong> <span id="sum-adults">1</span> Adults, <span id="sum-children">0</span> Children</p>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="clear-btn" onclick="clearBookingForm()">Clear Details</button>
+                        <button class="book-btn" onclick="submitBooking()">Confirm & Download PDF</button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <footer>
         <p>&copy; 2026 Hill Crest Villa. All Rights Reserved.</p>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- JS defer කර ඇත (Speed Optimization) -->
+    <script src="script.js" defer></script>
 </body>
 </html>

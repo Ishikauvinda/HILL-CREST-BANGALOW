@@ -196,7 +196,6 @@ footer {
 /* ============================================================
    HOME PAGE — HERO SLIDER
    ============================================================ */
-/* HOME PAGE STYLES */
 .slider-container { 
     position: relative; 
     width: 100%; 
@@ -223,7 +222,6 @@ footer {
     z-index: 1; 
 }
 
-/* අලුතින් එකතු කළ <img> ටැග් එක සඳහා */
 .slide-bg-img {
     position: absolute;
     top: 0;
@@ -231,10 +229,9 @@ footer {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: -2; /* පින්තූරය පිටිපස්සට යැවීම */
+    z-index: -2;
 }
 
-/* අලුතින් එකතු කළ ශේඩ් එක සඳහා (Gradient Overlay) */
 .slide-overlay {
     position: absolute;
     top: 0;
@@ -242,11 +239,11 @@ footer {
     width: 100%;
     height: 100%;
     background: linear-gradient(rgba(22,42,33,0.55), rgba(22,42,33,0.55));
-    z-index: -1; /* පින්තූරයට උඩින්, අකුරු වලට යටින් */
+    z-index: -1;
 }
 
 .slide-content { 
-    position: relative; /* අකුරු උඩින්ම පෙනෙන්න */
+    position: relative;
     z-index: 1;
     color: white; 
     max-width: 800px; 
@@ -264,10 +261,9 @@ footer {
     font-size: 1.1rem; 
     line-height: 1.6; 
     font-weight: 300; 
-    margin-bottom: 30px; /* Added spacing for the button */
+    margin-bottom: 30px;
 }
 
-/* Slide Button */
 .slide-btn {
     display: inline-block;
     background: linear-gradient(135deg, var(--brass-light), var(--brass));
@@ -328,6 +324,96 @@ footer {
     transition: transform 1.2s var(--ease);
 }
 .discover-image:hover img { transform: scale(1.06); }
+
+/* ============================================================
+   MEDIUM ARTICLES HORIZONTAL SCROLLING SECTION
+   ============================================================ */
+.medium-blogs-section {
+    padding: 60px 20px;
+    background-color: var(--stucco);
+    text-align: center;
+    overflow: hidden;
+}
+
+.medium-blogs-section h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.8rem, 3vw, 2.3rem);
+    color: var(--jungle);
+    margin-bottom: 30px;
+}
+
+.medium-slider-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow-x: auto;
+    padding-bottom: 20px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--brass) var(--line);
+}
+
+.medium-track {
+    display: flex;
+    gap: 24px;
+    width: max-content;
+    direction: rtl; 
+    text-align: left;
+    padding: 10px;
+}
+
+.medium-track > * {
+    direction: ltr; 
+}
+
+.medium-card {
+    background-color: var(--ivory);
+    width: 280px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    transition: transform var(--speed) var(--ease), box-shadow var(--speed) var(--ease);
+}
+
+.medium-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lift);
+}
+
+.medium-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.medium-card-content {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.medium-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    color: var(--jungle);
+    line-height: 1.4;
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.medium-card span {
+    font-size: 0.85rem;
+    color: var(--brass);
+    font-weight: 600;
+}
 
 /* ============================================================
    PAGE HEADER (Areas / Rooms)
@@ -648,9 +734,8 @@ footer {
 .fac-card ul li::before { content: "◆"; color: var(--brass); font-size: 0.6rem; margin-right: 12px; vertical-align: middle; }
 
 /* Booking Section */
-/* Added an ID to scroll to this specific section */
 #booking-form-section {
-    scroll-margin-top: 80px; /* Offset for sticky navbar */
+    scroll-margin-top: 80px; 
 }
 .booking-section { padding: 80px 20px 90px; background: var(--ivory); text-align: center; }
 .booking-section h2 {

@@ -30,7 +30,7 @@ function nextSlide() {
     slides.forEach(slide => slide.classList.remove('active'));
     currentSlide = (currentSlide + 1) % slides.length;
     if (slides[currentSlide]) slides[currentSlide].classList.add('active');
-    syncSliderDots(); // visual-only sync, does not alter slide logic
+    syncSliderDots(); 
 }
 
 if (slides.length > 0) {
@@ -59,7 +59,6 @@ function submitFeedback() {
 // 4. ROOMS PAGE LOGIC (Modal, Booking, PDF, Apps Script) 
 // ============================================================
 
-// Image Modal (Zoom)
 function openModal(imageSrc) {
     document.getElementById("imageModal").style.display = "block";
     document.getElementById("zoomedImg").src = imageSrc;
@@ -69,7 +68,6 @@ function closeModal() {
     document.getElementById("imageModal").style.display = "none";
 }
 
-// දින දෙකක් එකිනෙක ගැටෙනවාද (Overlapping) කියා පරීක්ෂා කිරීම
 function isDateOverlapping(checkinStr, checkoutStr) {
     let cIn = new Date(checkinStr);
     let cOut = new Date(checkoutStr);
@@ -85,14 +83,12 @@ function isDateOverlapping(checkinStr, checkoutStr) {
     return false;
 }
 
-// Live Summary Update & Date Calculation
 function calculateDays() {
     const checkin = document.getElementById('checkin-date').value;
     const checkout = document.getElementById('checkout-date').value;
     let days = 0;
 
     if (checkin && checkout) {
-        // Double Booking චෙක් කිරීම
         if (isDateOverlapping(checkin, checkout)) {
             alert("Sorry, these dates are already booked! Please select different dates.");
             document.getElementById('checkin-date').value = "";
@@ -122,23 +118,19 @@ function updateSummary() {
     document.getElementById('sum-email').innerText = document.getElementById('cus-email').value || "-";
     document.getElementById('sum-whatsapp').innerText = document.getElementById('cus-whatsapp').value || "-";
     document.getElementById('sum-contact').innerText = document.getElementById('cus-contact').value || "-";
-
     document.getElementById('sum-checkin').innerText = document.getElementById('checkin-date').value || "-";
     document.getElementById('sum-checkout').innerText = document.getElementById('checkout-date').value || "-";
-
     document.getElementById('sum-adults').innerText = document.getElementById('adults-count').value || "0";
     document.getElementById('sum-children').innerText = document.getElementById('children-count').value || "0";
     document.getElementById('sum-rooms').innerText = document.getElementById('rooms-count').value || "0";
 }
 
-// Clear Form Data
 function clearBookingForm() {
     document.getElementById('bookingForm').reset();
     document.getElementById('sum-days').innerText = "0";
     updateSummary();
 }
 
-// Submit Booking (Google Sheets + PDF + WhatsApp)
 function submitBooking() {
     const name = document.getElementById('cus-name').value;
     const email = document.getElementById('cus-email').value;
@@ -156,19 +148,16 @@ function submitBooking() {
         return;
     }
 
-    // අන්තිම මොහොතේත් දින Overlap වෙනවාදැයි බැලීම
     if (isDateOverlapping(checkin, checkout)) {
         alert("Sorry, these dates were just booked by someone else. Please select different dates.");
         return;
     }
 
-    // බොත්තම "Please wait..." ලෙස වෙනස් කිරීම
     const btn = document.querySelector('.book-btn');
     const originalText = btn.innerText;
     btn.innerText = "Please wait... Processing";
     btn.disabled = true;
 
-    // Google Sheet එකට යැවීම සඳහා දත්ත සැකසීම
     const formData = new URLSearchParams();
     formData.append("Name", name);
     formData.append("Email", email);
@@ -181,14 +170,12 @@ function submitBooking() {
     formData.append("Adults", adults);
     formData.append("Children", children);
 
-    // Google Sheet එකට දත්ත යැවීම
     fetch(SCRIPT_URL, {
         method: 'POST',
-        mode: 'no-cors', // <---- CORS Error එක නැති කිරීමට මෙය එකතු කරන ලදී
+        mode: 'no-cors',
         body: formData
     })
     .then(response => {
-        // 1. PDF රිසිට් එක හැදීම
         if (window.jspdf) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -212,14 +199,12 @@ function submitBooking() {
             doc.save(`Booking_HillCrest_${name}.pdf`);
         }
 
-        // 2. WhatsApp මැසේජ් එක යැවීම
         const message = `*New Booking Request - Hill Crest Bangalow*%0A%0A*Name:* ${name}%0A*Email:* ${email}%0A*WhatsApp:* ${whatsapp}%0A*Contact:* ${contact}%0A*Check-in:* ${checkin}%0A*Check-out:* ${checkout}%0A*Total Stay:* ${days} Days%0A*Rooms:* ${rooms}%0A*Guests:* ${adults} Adults, ${children} Children`;
         const waLink = `https://wa.me/94761727294?text=${message}`;
         setTimeout(() => { window.open(waLink, '_blank'); }, 1000);
 
-        // 3. පද්ධතිය Refresh කිරීම
         alert("Booking Successful!");
-        fetchBookedDates(); // අලුත් දින ටික නැවත ලබාගැනීම
+        fetchBookedDates(); 
         clearBookingForm();
         btn.innerText = originalText;
         btn.disabled = false;
@@ -233,12 +218,11 @@ function submitBooking() {
 }
 
 // ============================================================
-// 5. UI/UX ENHANCEMENTS (Animations, Navbar, Mobile Menu)
+// 5. UI/UX ENHANCEMENTS & 6. MEDIUM ARTICLES AUTO-LOADER
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- Sticky navbar shadow on scroll ---
     const navbar = document.querySelector('.navbar');
     if (navbar) {
         const onScroll = () => {
@@ -248,7 +232,6 @@ document.addEventListener('DOMContentLoaded', () => {
         onScroll();
     }
 
-    // --- Mobile navigation toggle ---
     const navLinks = document.querySelector('.nav-links');
     if (navbar && navLinks) {
         const toggle = document.createElement('button');
@@ -273,7 +256,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Slider dot indicators ---
     const sliderContainer = document.querySelector('.slider-container');
     if (sliderContainer && slides.length > 0) {
         const dotsWrap = document.createElement('div');
@@ -294,7 +276,6 @@ document.addEventListener('DOMContentLoaded', () => {
         sliderContainer.appendChild(cue);
     }
 
-    // --- Scroll-reveal animations ---
     const revealTargets = document.querySelectorAll(
         '.category-card, .fac-card, .gallery-img, .discover-content, .discover-image, ' +
         '.info-box, .map-box, .feedback-box, .booking-form, .booking-summary, .room-info'
@@ -332,7 +313,6 @@ document.addEventListener('DOMContentLoaded', () => {
         revealTargets.forEach(el => el.classList.add('in-view'));
     }
 
-    // --- Ripple micro-interaction for primary buttons ---
     document.querySelectorAll('.submit-btn, .book-btn, .clear-btn').forEach(btn => {
         btn.addEventListener('click', function (e) {
             const rect = this.getBoundingClientRect();
@@ -346,10 +326,53 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => ripple.remove(), 650);
         });
     });
+
+    // Medium Articles ලෝඩ් වෙන කෝඩ් එක
+    loadMediumArticlesForHome();
 });
 
 function syncSliderDots() {
     const dots = document.querySelectorAll('.slider-dots button');
     if (!dots.length) return;
     dots.forEach((dot, i) => dot.classList.toggle('active', i === currentSlide));
+}
+
+async function loadMediumArticlesForHome() {
+    const track = document.getElementById('medium-articles-track');
+    if (!track) return;
+
+    const username = 'hillcrestvillahikkaduwa';
+    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@${username}`;
+
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        if (data.status === 'ok' && data.items.length > 0) {
+            track.innerHTML = '';
+            data.items.forEach(item => {
+                let imageUrl = '';
+                const imgMatch = item.description.match(/<img[^>]+src="([^">]+)"/);
+                if (imgMatch) {
+                    imageUrl = imgMatch[1];
+                }
+
+                const card = document.createElement('a');
+                card.href = item.link;
+                card.target = '_blank';
+                card.className = 'medium-card';
+
+                card.innerHTML = `
+                    ${imageUrl ? `<img src="${imageUrl}" alt="${item.title}">` : '<div style="height:160px; background:#ddd;"></div>'}
+                    <div class="medium-card-content">
+                        <h3>${item.title}</h3>
+                        <span>Read on Medium →</span>
+                    </div>
+                `;
+                track.appendChild(card);
+            });
+        }
+    } catch (error) {
+        console.error('Error fetching Medium articles:', error);
+    }
 }
